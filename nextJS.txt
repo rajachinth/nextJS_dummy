@@ -1,0 +1,216 @@
+-> Next JS is a framework build on React to develop scalable large-mid-small enterpise application
+-> React is a javascript library and NextJs is a complete framework build on React library 
+   (similar to Angular framework build on typescript)
+
+*********** Key Advantages of NextJS ***********
+
+1. Server Side Rendering (stand alone React library also has this SSR feature but its not as easy as NextJS SSR feature)
+EXAMPLE:
+    Suppose HTML page has some HTTP calls to be made to fetch user data list.
+    -> Now in Client Side Render (CSR) -> initially root HTML page is sent yo the browser & browser renders the content
+        and then from browser the HTTP call triggers and then the user data list is retrieved from API.
+    -> Now in Server Side Render (SSR) -> root HTML page is rendered on server and HTTP call is also triggered on server
+        and the list is retrieved from API and then this complete rendered page is sent to the browser (Client) and
+        now browser parses this HTML and shows the content on Browser. (this helps for SEO crawlers)
+
+-> Server Side Rendering helps for SEO as complete page is rendered on server and send that to the client and then 
+    client show this HMTL content which is pre rendered on server to the client browser.
+-> When the HTML content is pre-rendered on server, then this helps for SEO crawlers to identify the HTML contents
+    like "title, headers or other unique text content".
+
+
+
+2. File Bases Routing (uses folder structure("pages" folder) to navigate across the different pages)
+-> In React library, we use "React-Router & React-Router-Dom" packages to implement Routing
+-> With NextJS, we can used folder structure to implement multi Routing.
+
+3. Server Side (NodeJS BackEnd) code can be added to the NextJS project, we dont need to create a separate new project for
+    REST API's as this NodeJS BackEnd can be combined to the NextJS project and has a combination of both Client Side
+    and Server Side javascript.
+
+    
+*************** Installation and Setup *******************
+-> Install NodeJS since React application has NPM dependancy to manage all its packages
+-> run -> create-next-app -> press enter 
+-> then it will ask for project name -> press enter
+-> create-next-app installs "next, react, react-dom"
+
+*************** React and Single Page Application (SPA) ***************
+
+-> Angular | React | VueJs all these are compenent based architectural design pattern
+-> Using vanilla javascript, its hard & complex to build large & dynamic enterpise applications
+-> Adding elements to the page and DOM manipulation to add or remove this dynamic UI elements is very complex
+    with standalone vanilla javascript
+-> Using framework/libraries like Angular | NextJs with React is very easy to build this complex UI
+-> SPA's loads initial content and rest of UI control is taken by React | Angular framework, making it simple & smooth
+    to navigate across the pages without any new request to the server to load new HTML page on every page navigation
+-> SPA's only load one HTML page from the server and rest of UI control is done from frameworks used in project.
+-> SPA's action can be seen in chrome dev tools, When navigated to new page; we see no reload spinner on the top-left
+    of the chrome window (this hows we are not requesting new HTML page, instead modifying the existing loaded page content)
+
+*************** Routing in NextJs ***************
+
+-> Routing in NextJS works as File-Based from special "/pages" folder in NextJS projects
+-> EXAMPLE:
+            /pages
+                /home
+                /index.js -> https://localhost:3000/home
+                /about.js -> https://localhost:3000/home/about
+
+                /profile
+                /index.js -> https://localhost:3000/profile
+        
+                /newuser
+                /index.js -> https://localhost:3000/newuser
+                /adduser.js -> https://localhost:3000/newuser/adduser
+                /[id].js -> https://localhost:3000/newuser/<dynamic user ID>
+
+                /[dynamic foldername] -> accepts dynamic nested folder or sub-folder routing
+                /[dynamic filename] -> accepts dynamic JS file names
+
+-> "index.js" takes as default file for the root page of that page-folder or page-subfolder
+-> use "useRouter & withRouter" from "next/router" which consists "router object" with all properties & methods
+
+EXAMPLE:
+-> Suppose we have a use case to navigate to https://localhost:3000/blogs/2012/oct/12
+
+In above scenario we need to load the same page for below route pages  
+            https://localhost:3000/blogs/2012
+            https://localhost:3000/blogs/2012/oct
+            https://localhost:3000/blogs/2012/oct/12
+
+So, after "/blogs"; "/2012/oct/12" these paths can be optional to pass all this three or any one; so we need to have 
+    a wild card entry router to catch all this sub-path domains
+
+    -> [...<cutom name> or slug] -> this "...("spread" like operator) treated in NextJs in a different way; as this catches
+            all sub-path routes after "/blogs" (generally called "slug")
+
+    FOLDER STRUCTURE:
+        /pages
+
+        /blogs  
+        /[...date].js -> catched all below routes 
+        
+            https://localhost:3000/blogs/2012
+            https://localhost:3000/blogs/2012/oct
+            https://localhost:3000/blogs/2012/oct/12
+
+************************************************** 
+
+******************** Public Folder(Static File Serving) in NextJS ************************
+
+-> all the assests (images, html, fav-icons, JS files etc..,) all these contents are served statically to the visitor
+    of the page, and these assests in Public folder are made accessible across the whole application.
+-> Image which are not part of these Public folder are not accessible by the visitors of the page (in production).
+-> all assests can be accessed from root path "/" ( dont give same pages name and assests files names; it throws error!)
+-> refer -> https://nextjs.org/docs/basic-features/static-file-serving
+
+******************************************************************************************
+
+******************** Adding React Components ********************
+
+-> Add React components outside of "pages" folder, since any thing inside "pages" folder will add to the routing,
+    React components are added in separate folder (naming convention is any)
+
+*****************************************************************
+
+-> for JSX Icons use below popular website
+-> https://heroicons.com/
+
+
+
+/////////////////////// Data Fetching ///////////////////////
+
+-> SSR is core feature of NextJS
+-> The initial HTML page of main-route or sub-routes is pre-rendered on the server and returned to the client (Browser)
+-> Along with this pre-rendered HTML page, NextJS also ships the all JS files
+-> Once the initial pre-rendered page loads on to the client, React takes the control of the page and performs further
+    action of rendering Single Page Application without requesting new HTML page
+
+-> From above statement, Its very clear that only on the initial Page load (i.e. first time the HTML page loads) the NextJS
+    pre-renderes page on the server and retun that to the client (Browser)
+
+-> Since React/Angular is a SPA's there will be no further HTML new page request.
+-> So, SEO scrawlers is a key to scrawl the contents of this pre-rendered HTML contents
+-> Once this pre-rendered page is retuned to the client from server, the React then hydrates i.e., takes control of 
+    the application (i.e, page navigation, further HTTP requests etc..,)
+-> There are two ways of Data Fetching in NextJS
+        a. Static Generation
+        b. Server Side Rendering
+
+a. Static Generation
+-> In this way, we are pre-generate the whole HTML pages at build time by rendering the data(props) required to pre-render
+    the HTML pages which requires data
+-> we can achieve this using below syntax which generates data(props) on the server thats required by the HTML pages
+    async function getStaticProps(context) {}
+
+-> We can write the code that required to be pre-generated data for the HTML pages at the build time can be 
+    added inside the block.
+-> we can include code that doesnt require any client side dependencies like Window Object or Browser API's 
+
+-> Code included inside this "getStaticProps()" method is not visible on the client(Browser) i.e., this code is not
+    rendered on to the Browser to get data(props) thats required by the HTML pages
+
+-> By this way, we can secure our code chunks that consists sensitive URL's or any other sensitive data
+
+on the pre-redered page, we see NextJS adds a script tag with the pre-rendered data on the server using "getStaticProps()"
+-> This is becacuse of the React "hydrate" process
+-> By sendind the "getStaticProps()" data in a <script> tag on the initial pre-rendered page, "React" hydrates and know
+    the dynamic data that is present already in the pre-rendered page and any further updates to this dynamic data
+    can be easily identified by React and will update.
+-> Main idea on sending the data in <script> tag is, to make sure React hydrates and know the dynamic data in the prer-redered
+    page and it helps to update/modify this dynamic data fields.
+-> If there is no such <script> tag with server side rendered data, React cannot know what are the dynamic fields and
+    cant hydrate the pre-rendered page and no-further actions are performed.
+
+    EXAMPLE:
+    
+    <script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"authors":[{"id":"01","name":"Kewin"},
+    {"id":"02","name":"John"},{"id":"03","name":"Lewis"},{"id":"04","name":"Paul"},{"id":"05","name":"Nikki"},
+    {"id":"06","name":"Pieter"}]},"__N_SSG":true},"page":"/","query":{},"buildId":"h0d5LO_5Xd8nflPnFD4h9",
+    "nextExport":false,"isFallback":false,"gsp":true}</script>
+
+
+**** By default NextJS pre-renders all HTML pages that has no dynamic content i.e., static HTMl pages ****
+
+-> run command -> npm run build
+-> Now, this command generate production ready build with all pre-generated pages. We can now see this under 
+    ".next" -> "server" -> "pages" folder
+
+while production build is ready, we see something like below...
+
+******************************************************************************************
+
+info  - Generating static pages (8/8)
+info  - Finalizing page optimization
+
+Page                                                           Size     First Load JS
+┌ ● /                                                          2.08 kB        65.2 kB
+├   /_app                                                      0 B            63.1 kB
+├ ○ /404                                                       311 B          63.4 kB
+├ ○ /blogs/[...date]                                           467 B          63.6 kB
+├ ○ /location/[countrycode]                                    377 B          63.5 kB
+├ ○ /location/[countrycode]/[countryname]                      389 B          63.5 kB
+├ ○ /user                                                      348 B          63.4 kB
+└ ○ /user/[id]                                                 358 B          63.5 kB
++ First Load JS shared by all                                  63.1 kB
+  ├ chunks/2787dbd5973f8876503171db735e5d6236a13fe1.e6d5e3.js  13.4 kB
+  ├ chunks/framework.4b1bec.js                                 41.8 kB
+  ├ chunks/main.8aabc5.js                                      6.67 kB
+  ├ chunks/pages/_app.4ae1cc.js                                529 B
+  ├ chunks/webpack.50bee0.js                                   751 B
+  └ css/6e9ef204d6fd7ac61493.css                               194 B
+
+λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+●  (SSG)     automatically generated as static HTML + JSON (uses getStaticProps)
+   (ISR)     incremental static regeneration (uses revalidate in getStaticProps)
+
+******************************************************************************************
+
+λ  -> its pre-rendered server side code block
+○  -> its pre-generated/rendered static HTML page with no initial props (i.e, without getStaticProps())
+●  -> Static Site Generation (SSG) its pre-generated static HTML page with initial props (i.e., with getStaticProps())
+
+Now, run command -> npm run start -> its spins local server on this production ready build \
+By this we can serve production build on local machine itself, similar to local development server 

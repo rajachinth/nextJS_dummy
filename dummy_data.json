@@ -1,0 +1,10 @@
+{
+  "authors": [
+    { "id": "01", "name": "Kewin" },
+    { "id": "02", "name": "John" },
+    { "id": "03", "name": "Lewis" },
+    { "id": "04", "name": "Paul" },
+    { "id": "05", "name": "Nikki" },
+    { "id": "06", "name": "Pieter" }
+  ]
+}
