@@ -16,7 +16,7 @@ async function mongoDB(req, res) {
 
   try {
     mongo = await mongoose.connect(
-      "mongodb+srv://raja9040:raja9040@cluster0.bgru8.mongodb.net/dummydata"
+      "mongodb+srv://<username>:<password>@cluster0.bgru8.mongodb.net/dummydata"
     );
     console.log("connection successful");
 
